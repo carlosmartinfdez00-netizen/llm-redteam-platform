@@ -1,0 +1,39 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: rtllm-ollama
+    volumes:
+      - ollama_models:/root/.ollama
+    ports:
+      - "127.0.0.1:11434:11434"
+    restart: unless-stopped
+    # Descomenta para usar GPU NVIDIA (requiere NVIDIA Container Toolkit):
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+  app:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: rtllm-app
+    depends_on:
+      - ollama
+    environment:
+      RTLLM_OLLAMA_HOST: http://ollama:11434
+      # "ollama" ya está en la lista blanca por defecto (ver backend/app/config.py).
+    volumes:
+      - rtllm_data:/app/data
+    ports:
+      # Solo accesible desde tu propia máquina. La plataforma NO tiene
+      # autenticación: no la expongas a una red sin un proxy con auth delante.
+      - "127.0.0.1:8000:8000"
+    restart: unless-stopped
+
+volumes:
+  ollama_models:
+  rtllm_data:

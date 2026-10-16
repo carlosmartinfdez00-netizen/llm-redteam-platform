@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Red Teaming Platform</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>🛡️ LLM Red Teaming Platform</h1>
+    <p class="tagline">Evaluación automatizada de seguridad ofensiva para modelos de lenguaje</p>
+  </header>
+
+  <main>
+    <section class="panel" id="new-campaign-panel">
+      <h2>Nueva campaña</h2>
+      <form id="campaign-form">
+        <div class="field">
+          <label for="name">Nombre de la campaña</label>
+          <input type="text" id="name" required placeholder="p. ej. DESPROMPTADO - baseline">
+        </div>
+
+        <div class="role-grid">
+          <div class="role-block">
+            <h3>Modelo objetivo</h3>
+            <div class="field">
+              <label for="target_model">Modelo</label>
+              <input type="text" id="target_model" required placeholder="llm-objetivo">
+            </div>
+            <div class="field">
+              <label for="target_host">Host de Ollama</label>
+              <input type="text" id="target_host" placeholder="http://localhost:11434">
+            </div>
+          </div>
+
+          <div class="role-block">
+            <h3>Modelo atacante</h3>
+            <div class="field">
+              <label for="attacker_model">Modelo</label>
+              <input type="text" id="attacker_model" placeholder="llama3.2:3b">
+            </div>
+            <div class="field">
+              <label for="attacker_host">Host de Ollama</label>
+              <input type="text" id="attacker_host" placeholder="Igual que el objetivo si se deja vacío">
+            </div>
+          </div>
+
+          <div class="role-block">
+            <h3>Modelo juez</h3>
+            <div class="field">
+              <label for="judge_model">Modelo</label>
+              <input type="text" id="judge_model" placeholder="llama3.2:3b">
+            </div>
+            <div class="field">
+              <label for="judge_host">Host de Ollama</label>
+              <input type="text" id="judge_host" placeholder="Igual que el objetivo si se deja vacío">
+            </div>
+          </div>
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label for="iterations">Iteraciones por categoría</label>
+            <input type="number" id="iterations" min="1" max="8" value="5">
+          </div>
+          <div class="field">
+            <label for="canary">Canario (opcional)</label>
+            <input type="text" id="canary" placeholder="p. ej. CANARY-TFG-9382 (o varios separados por |)">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Categorías de prueba</label>
+          <div id="categories-list" class="categories-list">Cargando categorías…</div>
+        </div>
+
+        <button type="submit" class="primary">🚀 Lanzar campaña</button>
+        <p class="form-note">
+          Usa únicamente modelos propios o entornos para los que tengas autorización explícita.
+        </p>
+      </form>
+    </section>
+
+    <section class="two-column">
+      <div class="panel campaigns-column">
+        <h2>Campañas</h2>
+        <div id="campaigns-list" class="campaigns-list">Cargando campañas…</div>
+      </div>
+
+      <div class="panel detail-column" id="detail-panel">
+        <div id="detail-empty-state" class="empty-state">
+          Selecciona una campaña de la lista para ver sus hallazgos.
+        </div>
+        <div id="detail-content" style="display:none;">
+          <div class="detail-header">
+            <h2 id="detail-title">Detalle de campaña</h2>
+            <div class="detail-actions">
+              <a id="report-link" class="link-btn" target="_blank">📄 Generar informe</a>
+            </div>
+          </div>
+          <div id="detail-models" class="models-line"></div>
+          <div id="detail-summary" class="detail-summary"></div>
+          <div id="findings-table-container"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

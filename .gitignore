@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Configuración y secretos locales
+.env
+certs/
+*.pem
+*.key
+
+# Datos locales: la base SQLite contiene prompts de ataque y respuestas reales
+backend/data/
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# Informes generados
+reports/
+*.pdf
+
+# SO / editores
+desktop.ini
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
