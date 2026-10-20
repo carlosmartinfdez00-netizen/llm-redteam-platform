@@ -13,8 +13,7 @@ Cada categoría define:
     usado para construir la rúbrica de evaluación.
 
 Nota ética: estas plantillas están pensadas para evaluar modelos propios
-o para los que exista autorización explícita (p. ej. el entorno de
-laboratorio DESPROMPTADO del TFG). No deben usarse contra servicios de
+o para los que exista autorización explícita no deben usarse contra servicios de
 terceros sin permiso.
 """
 from dataclasses import dataclass
